@@ -8,8 +8,21 @@
 </form>
 
 {{if .}}
-<h1>Here are the contents of the file:</h1>
-{{.}}
+    <table cellspacing="5" cellpadding="5">
+      <caption>Calculation Results</caption>
+      <thead>
+        <tr>
+          <th>Mean</th>
+          <th>Variance</th>
+          <th>Standard Deviation</th>
+      </thead>
+      <tbody>
+          <tr>
+            <td>{{.Mean}} </td>
+            <td>{{.Variance}}</td>
+            <td>{{.StdDev}}</td>
+          </tr>
+    </tbody>
 {{end}}
 
 {{template "footer"}}

@@ -93,8 +93,10 @@ func doIndexPost(resp http.ResponseWriter, req *http.Request) {
 			fmt.Printf("stdDev: %+v\n", stdDev)
 		}
 
+		calcResults :=  CalcResults{Mean: mean, Variance: variance, StdDev: stdDev,}
+
 		resp.Header().Set("Content-Type", "text/html; charset=utf-8")
-		tmpl.ExecuteTemplate(resp, "index.gohtml", strconv.FormatFloat(stdDev, 'E', -1, 64))
+		tmpl.ExecuteTemplate(resp, "index.gohtml", calcResults)
 	}
 }
 
