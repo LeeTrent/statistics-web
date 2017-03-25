@@ -12,13 +12,20 @@ import (
 
 const tmplDir string = "templates/*"
 const userDir string = "./userfiles/"
+const floatFormat string = "%.4f"
 const debugging bool = true
 
+//type CalcResults struct {
+//	Data     []float64
+//	Mean     float64
+//	Variance float64
+//	StdDev   float64
+//}
+
 type CalcResults struct {
-	Data     []float64
-	Mean     float64
-	Variance float64
-	StdDev   float64
+	Mean string
+	Variance string
+	StdDev   string
 }
 
 var tmpl *template.Template
@@ -38,6 +45,9 @@ func debug(val string) {
 }
 
 func index(resp http.ResponseWriter, req *http.Request) {
+	if debugging {
+		fmt.Printf("req.Method: %+v\n", req.Method)
+	}
 
 	if req.Method == http.MethodGet {
 		doIndexGet(resp, req)
@@ -52,7 +62,7 @@ func doIndexGet(resp http.ResponseWriter, req *http.Request) {
 
 	if req.Method == http.MethodGet {
 		resp.Header().Set("Content-Type", "text/html; charset=utf-8")
-		tmpl.ExecuteTemplate(resp, "index.gohtml", "HTTP Method GET")
+		tmpl.ExecuteTemplate(resp, "index.gohtml", nil)
 	}
 }
 
@@ -93,7 +103,12 @@ func doIndexPost(resp http.ResponseWriter, req *http.Request) {
 			fmt.Printf("stdDev: %+v\n", stdDev)
 		}
 
-		calcResults :=  CalcResults{Mean: mean, Variance: variance, StdDev: stdDev,}
+		//calcResults :=  CalcResults{Mean: mean, Variance: variance, StdDev: stdDev,}
+		calcResults := CalcResults{
+			Mean: fmt.Sprintf(floatFormat, mean),
+			Variance: fmt.Sprintf(floatFormat, variance),
+			StdDev: fmt.Sprintf(floatFormat, stdDev),
+		}
 
 		resp.Header().Set("Content-Type", "text/html; charset=utf-8")
 		tmpl.ExecuteTemplate(resp, "index.gohtml", calcResults)
