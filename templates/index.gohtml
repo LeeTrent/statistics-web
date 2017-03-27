@@ -24,6 +24,13 @@
                 <td>{{.StdDev}}</td>
             </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="footerCol">
+                    Data File Used: <a href="/userfiles/{{.FileName}}" target="_blank">{{.FileName}}</a>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 {{end}}
 

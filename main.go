@@ -6,9 +6,9 @@ import (
 	"github.com/LeeTrent/fileutil"
 	"github.com/LeeTrent/statistics"
 	"html/template"
+	"log"
 	"net/http"
 	"strconv"
-	"log"
 )
 
 const tmplDir string = "templates/*"
@@ -24,9 +24,10 @@ const debugging bool = true
 //}
 
 type CalcResults struct {
-	Mean string
+	Mean     string
 	Variance string
 	StdDev   string
+	FileName string
 }
 
 var tmpl *template.Template
@@ -37,6 +38,7 @@ func init() {
 
 func main() {
 	http.HandleFunc("/", index)
+	http.Handle("/userfiles/", http.StripPrefix("/userfiles", http.FileServer(http.Dir("./userfiles"))))
 	http.Handle("/favicon.ico", http.NotFoundHandler())
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
@@ -106,9 +108,10 @@ func doIndexPost(resp http.ResponseWriter, req *http.Request) {
 
 		//calcResults :=  CalcResults{Mean: mean, Variance: variance, StdDev: stdDev,}
 		calcResults := CalcResults{
-			Mean: fmt.Sprintf(floatFormat, mean),
+			Mean:     fmt.Sprintf(floatFormat, mean),
 			Variance: fmt.Sprintf(floatFormat, variance),
-			StdDev: fmt.Sprintf(floatFormat, stdDev),
+			StdDev:   fmt.Sprintf(floatFormat, stdDev),
+			FileName: fileName,
 		}
 
 		resp.Header().Set("Content-Type", "text/html; charset=utf-8")
