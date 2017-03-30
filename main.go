@@ -25,6 +25,7 @@ const debugging bool = true
 
 type CalcResults struct {
 	Mean     string
+	Median   string
 	Variance string
 	StdDev   string
 	FileName string
@@ -96,12 +97,14 @@ func doIndexPost(resp http.ResponseWriter, req *http.Request) {
 		}
 
 		mean := statistics.CalcMean(fileData)
+		median, _ := statistics.CalcMedian(fileData)
 		variance := statistics.CalcVarianceUsingMean(mean, fileData)
 		stdDev := statistics.CalcStandardDeviationUsingVariance(variance)
 
 		if debugging {
 			fmt.Printf("sampleData: %+v\n", fileData)
 			fmt.Printf("mean: %+v\n", mean)
+			fmt.Printf("median: %+v\n", median)
 			fmt.Printf("variance: %+v\n", variance)
 			fmt.Printf("stdDev: %+v\n", stdDev)
 		}
@@ -109,6 +112,7 @@ func doIndexPost(resp http.ResponseWriter, req *http.Request) {
 		//calcResults :=  CalcResults{Mean: mean, Variance: variance, StdDev: stdDev,}
 		calcResults := CalcResults{
 			Mean:     fmt.Sprintf(floatFormat, mean),
+			Median:   fmt.Sprintf(floatFormat, median),
 			Variance: fmt.Sprintf(floatFormat, variance),
 			StdDev:   fmt.Sprintf(floatFormat, stdDev),
 			FileName: fileName,
