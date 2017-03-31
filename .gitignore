@@ -25,6 +25,9 @@ _testmain.go
 *.test
 *.prof
 
+# Project Executable
+statistics-web
+
 # WebStorm
 *.iml
 
