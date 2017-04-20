@@ -19,6 +19,7 @@ const (
 )
 
 type CalcResults struct {
+	N     	 string
 	Mean     string
 	Median   string
 	Variance string
@@ -36,8 +37,8 @@ func main() {
 	http.HandleFunc("/", index)
 	http.Handle("/userfiles/", http.StripPrefix("/userfiles", http.FileServer(http.Dir("./userfiles"))))
 	http.Handle("/favicon.ico", http.NotFoundHandler())
-	//log.Fatal(http.ListenAndServe(":8080", nil))
-	log.Fatal(http.ListenAndServe(":80", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
+	//log.Fatal(http.ListenAndServe(":80", nil))
 }
 
 func debug(val string) {
@@ -92,6 +93,7 @@ func doIndexPost(resp http.ResponseWriter, req *http.Request) {
 			return
 		}
 
+		n := statistics.CalcN(fileData)
 		mean := statistics.CalcMean(fileData)
 		median, _ := statistics.CalcMedian(fileData)
 		variance := statistics.CalcVarianceUsingMean(mean, fileData)
@@ -99,6 +101,7 @@ func doIndexPost(resp http.ResponseWriter, req *http.Request) {
 
 		if debugging {
 			fmt.Printf("sampleData: %+v\n", fileData)
+			fmt.Printf("n: %+v\n", n)
 			fmt.Printf("mean: %+v\n", mean)
 			fmt.Printf("median: %+v\n", median)
 			fmt.Printf("variance: %+v\n", variance)
@@ -107,6 +110,7 @@ func doIndexPost(resp http.ResponseWriter, req *http.Request) {
 
 		//calcResults :=  CalcResults{Mean: mean, Variance: variance, StdDev: stdDev,}
 		calcResults := CalcResults{
+			N:     	  strconv.Itoa(n),
 			Mean:     fmt.Sprintf(floatFormat, mean),
 			Median:   fmt.Sprintf(floatFormat, median),
 			Variance: fmt.Sprintf(floatFormat, variance),

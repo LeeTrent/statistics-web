@@ -15,6 +15,7 @@
         <caption>Calculation Results</caption>
         <thead>
             <tr>
+                <th>N</th>
                 <th>Mean</th>
                 <th>Median</th>
                 <th>Variance</th>
@@ -23,6 +24,7 @@
         </thead>
         <tbody>
             <tr>
+                <td>{{.N}}</td>
                 <td>{{.Mean}}</td>
                 <td>{{.Median}} </td>
                 <td>{{.Variance}}</td>
@@ -31,7 +33,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" class="footerCol">
+                <td colspan="5" class="footerCol">
                     Data File Used: <a href="/userfiles/{{.FileName}}" target="_blank">{{.FileName}}</a>
                 </td>
             </tr>
