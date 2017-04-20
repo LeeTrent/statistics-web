@@ -14,14 +14,7 @@ import (
 const tmplDir string = "templates/*"
 const userDir string = "./userfiles/"
 const floatFormat string = "%.4f"
-const debugging bool = true
-
-//type CalcResults struct {
-//	Data     []float64
-//	Mean     float64
-//	Variance float64
-//	StdDev   float64
-//}
+const debugging bool = false
 
 type CalcResults struct {
 	Mean     string
@@ -41,7 +34,8 @@ func main() {
 	http.HandleFunc("/", index)
 	http.Handle("/userfiles/", http.StripPrefix("/userfiles", http.FileServer(http.Dir("./userfiles"))))
 	http.Handle("/favicon.ico", http.NotFoundHandler())
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	//log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":80", nil))
 }
 
 func debug(val string) {
