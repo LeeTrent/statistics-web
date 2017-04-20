@@ -11,10 +11,12 @@ import (
 	"strconv"
 )
 
-const tmplDir string = "templates/*"
-const userDir string = "./userfiles/"
-const floatFormat string = "%.4f"
-const debugging bool = false
+const (
+	tmplDir string = "templates/*"
+	userDir string = "./userfiles/"
+	floatFormat string = "%.4f"
+	debugging bool = false
+)
 
 type CalcResults struct {
 	Mean     string
